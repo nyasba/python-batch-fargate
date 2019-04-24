@@ -1,4 +1,7 @@
-# pythonでバッチスクリプトを書くときの雛形
+# pythonバッチについて
+
+こちらのテンプレートを利用しています（バッチの中身はほとんど変えていません）
+https://github.com/fetaro/python-batch-template
 
 この雛形では以下のことをしています。
 
