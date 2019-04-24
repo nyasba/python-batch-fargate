@@ -2,7 +2,7 @@
 import sys
 import os
 from optparse     import OptionParser
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import logging
 
 # 親ディレクトリをアプリケーションのホーム(${app_home})に設定
@@ -70,7 +70,9 @@ if __name__ == "__main__" :
         logger.info(config.getboolean("section2","key2"))
 
         # 例外が発生しても・・・
-        raise Exception("My Exception")
+        raise Exception("My expected Exception")
+
+        logger.info("no problem.")
 
     except Exception as e:
         # キャッチして例外をログに記録
