@@ -55,6 +55,7 @@ if __name__ == "__main__" :
     # 処理開始
     try:
         # ログ出力
+        logger.info("*** no2 batch ***")
         logger.info("start")
         logger.error("arg1 = {0}".format(args[0]))
 
@@ -72,9 +73,10 @@ if __name__ == "__main__" :
         # 例外が発生しても・・・
         raise Exception("My expected Exception")
 
-        logger.info("no problem.")
 
     except Exception as e:
         # キャッチして例外をログに記録
         logger.exception(e)
+        logger.info("no problem.")
         sys.exit(1)
+
