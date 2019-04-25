@@ -78,5 +78,5 @@ if __name__ == "__main__" :
         # キャッチして例外をログに記録
         logger.exception(e)
         logger.info("no problem.")
-        sys.exit(1)
+        sys.exit(0)
 
