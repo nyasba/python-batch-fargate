@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'fargate scheduled task for batch execution'
+Parameters:
+  BatchName:
+    Type: String
+    Description: A name of batch
+    Default: 'batch'
+  TaskExecutionRoleName:
+    Type: String
+    Description: A name of task execution role
+    Default: 'ecsTaskExecutionRole'
+Resources:
+  CloudwatchLogsGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/fargate/${BatchName}"
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub "${BatchName}"
+  ECSTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties: 
+      Cpu: "256"
+      Memory: "512"
+      Family: !Sub "${BatchName}"
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/${TaskExecutionRoleName}"
+      TaskRoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/${TaskExecutionRoleName}"
+      NetworkMode: awsvpc
+      ContainerDefinitions:
+        - Name: !Sub "${BatchName}"
+          Image: !Sub "${AWS::AccountId}.dkr.ecr.ap-northeast-1.amazonaws.com/${BatchName}:latest"
+          MemoryReservation: 128
+          Environment: 
+            - Name: "arg1"
+              Value: "test"
+          LogConfiguration:
+            LogDriver: 'awslogs'
+            Options:
+              awslogs-group: !Sub "/fargate/${BatchName}"
+              awslogs-region: !Sub "${AWS::Region}"
+              awslogs-stream-prefix: "batch"
